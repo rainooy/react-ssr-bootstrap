@@ -1,7 +1,7 @@
 {
-  "name": "@bytom/m.blockmeta",
-  "version": "1.0.1",
-  "description": "bytom blockchain explorer",
+  "name": "@bytom/<%= proj_name %>",
+  "version": "0.0.1",
+  "description": "<%= proj_des %>",
   "main": "lib/index",
   "repository": {
     "type": "git",
@@ -17,8 +17,8 @@
     "start": "cross-env NODE_ENV=development npm run webpack:dev"
   },
   "config": {
-    "appName": "Blockmeta Mobile",
-    "appTitle": "Blockmeta",
+    "appName": "<%= proj_name %>",
+    "appTitle": "<%= proj_name %>",
     "port": 2666,
     "output": "dist"
   },

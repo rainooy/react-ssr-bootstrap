@@ -1,4 +1,4 @@
-# m-blockmeta
+# <%= proj_des %>
 
 ## Usage
 - init
