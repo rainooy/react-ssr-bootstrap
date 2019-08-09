@@ -2,7 +2,7 @@ const path = require('path');
 const pkg = require('../package.json');
 const webpack = require('webpack');
 
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');      // 生成html文件
 const HtmlWebpackTemplate = require('html-webpack-template');
 const WebpackMonitor = require('webpack-monitor');
@@ -17,9 +17,7 @@ const isAnalyze = process.env.ANALYZE === 'true';
 
 const myPlugins = [
   // 清空打包文件生成目录，每次打包前执行一次
-  new CleanWebpackPlugin([config.distPath], {
-    root: config.rootPath,
-  }),
+  new CleanWebpackPlugin(),
   // new webpack.DefinePlugin({
   //   NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'production'),   // wp4不在需要定义NODE_ENV，根据mode自动定义
   // }),
@@ -111,14 +109,19 @@ module.exports = {
       {
         test: /\.s?[ac]ss$/,
         use: [
-          isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: isDev,
+            }
+          },
           {
             loader: 'css-loader',
             options: {
-              modules: true,
+              modules: {
+                localIdentName: isDev ? '[local]_[path]_[name]_[hash:6]' : 'bytom-[hash:6]',
+              },
               sourceMap: false,
-              minimize: true,
-              localIdentName: isDev ? '[local]_[path]_[hash:6]' : 'vj-[name]-[hash:6]',
             }
           }, 'sass-loader', 'postcss-loader'
         ],
