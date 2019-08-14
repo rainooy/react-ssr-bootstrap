@@ -6,8 +6,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');      // 生成html文件
 const HtmlWebpackTemplate = require('html-webpack-template');
 const WebpackMonitor = require('webpack-monitor');
-const ProgressPlugin = require( 'simple-progress-webpack-plugin' );
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WebpackBar = require('webpackbar');
 
 const config = require('./config.js');
 
@@ -16,6 +16,12 @@ const isAnalyze = process.env.ANALYZE === 'true';
 
 
 const myPlugins = [
+  new WebpackBar({
+    name: pkg.name,
+    color: '#f7b41e',
+    // profile: true,
+    // reporters: [ 'profile']
+  }),
   // 清空打包文件生成目录，每次打包前执行一次
   new CleanWebpackPlugin(),
   // new webpack.DefinePlugin({
@@ -57,7 +63,6 @@ const myPlugins = [
     // chunkFilename: '[id]_[hash].css',
     allChunks: true,
   }),
-  new ProgressPlugin(),
 ];
 
 const monitorPlugin =  new WebpackMonitor({
@@ -174,11 +179,5 @@ module.exports = {
     //     { from: /./, to: '/index.html' }
     //   ]
     // },
-    before() {
-      console.log('before');
-    },
-    after() {
-      console.log('completed.');
-    },
   }
 };
