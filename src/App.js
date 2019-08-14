@@ -1,15 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
-import { addLocaleData, IntlProvider } from 'react-intl';
-import en from 'react-intl/locale-data/en';
-import zh from 'react-intl/locale-data/zh';
+import { IntlProvider } from 'react-intl';
 import zh_CN from './conf/locales/zh-CN';
 import en_US from './conf/locales/en-US';
 
 import Home from './views/Home';
-
-addLocaleData([...en, ...zh]);
 
 const mapStateToProps = (state) => ({
   config: state.config,

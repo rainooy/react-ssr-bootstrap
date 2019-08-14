@@ -2,34 +2,25 @@ const path = require('path');
 const pkg = require('../package.json');
 const webpack = require('webpack');
 
-<<<<<<< HEAD
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');      // 生成html文件
 const HtmlWebpackTemplate = require('html-webpack-template');
 const WebpackMonitor = require('webpack-monitor');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const WebpackBar = require('webpackbar');
-=======
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');      // 生成html文件
-const HtmlWebpackTemplate = require('html-webpack-template');
-const WebpackMonitor = require('webpack-monitor');
-const ProgressPlugin = require( 'simple-progress-webpack-plugin' );
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const MiniCssFile = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const HappyPack = require('happypack');
 const InlineMainfestPlugin = require('inline-manifest-webpack-plugin');
->>>>>>> 3cc45bbc9da8997b764f9cd85b87aec6c2ae6c94
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const WebpackBar = require('webpackbar');
 
 const config = require('./config.js');
 
 const isDev = process.env.NODE_ENV === 'development';
+const isTestnet = process.env.TEST_NET === 'true';
+const isMainnet = process.env.MAIN_NET === 'true';
 const isAnalyze = process.env.ANALYZE === 'true';
 
-
 const myPlugins = [
-<<<<<<< HEAD
   new WebpackBar({
     name: pkg.name,
     color: '#f7b41e',
@@ -41,48 +32,24 @@ const myPlugins = [
   // new webpack.DefinePlugin({
   //   NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'production'),   // wp4不在需要定义NODE_ENV，根据mode自动定义
   // }),
-  new webpack.HotModuleReplacementPlugin(),
-=======
-  // 清空打包文件生成目录，每次打包前执行一次
-  new CleanWebpackPlugin([config.distPath], {
-    root: config.rootPath,
-  }),
-  // new webpack.DefinePlugin({
-  //   NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'production'),   // wp4不在需要定义NODE_ENV，根据mode自动定义
-  // }),
->>>>>>> 3cc45bbc9da8997b764f9cd85b87aec6c2ae6c94
   // 自动生成html文件，使用html-webpack-template插件指定模板
   new HtmlWebpackPlugin({
     title: pkg.config.appTitle,
     // filename: `${pkg.config.appName}.html`,    // 生成文件名取自 package.json name属性，故初始化项目指定合适name
     filename: `index.html`,    // 生成文件名取自 package.json name属性，故初始化项目指定合适name
-<<<<<<< HEAD
-    favicon: '',
-=======
     favicon: path.join(__dirname, '../src/assets/images/favicon.ico'),
->>>>>>> 3cc45bbc9da8997b764f9cd85b87aec6c2ae6c94
     template: HtmlWebpackTemplate,        // 使用html-webpack-template插件扩充默认模板
     inject: false,                        // 由html-webpack-template处理文件打包后文件引入，所以此处关闭默认html-webpack-plugin文件注入
     appMountId: config.appMountId,        // 默认app容器id
     mobile: false,                        // 是否开启移动端支持，meta标签
-<<<<<<< HEAD
-    lang: 'zh-CN',
-    links: [],                            // 额外links
-    scripts: [],                          // 额外js
-=======
     lang: 'en-US',
     links: [],                            // 额外links
-    // scripts: ['https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en'],                          // 额外js
+    scripts: [],                          // 额外js
     inlineManifestWebpackName: 'runtime',
-    bodyHtmlSnippet: '<span style="display: none"><script src="https://hm.baidu.com/hm.js?5ee54634fb5650de8ac1e05cc4012ded" language="JavaScript"></script></span>',
->>>>>>> 3cc45bbc9da8997b764f9cd85b87aec6c2ae6c94
     meta: [                               // 指定meta标签
       {
         name: 'renderer',
         content: 'webkit'
-<<<<<<< HEAD
-      }
-=======
       },
       {
         name: 'keywords',
@@ -95,12 +62,7 @@ const myPlugins = [
       {
         name: 'viewport',
         content: 'width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no'
-      },
-      {
-        name: 'format-detection',
-        content: 'telephone=no'
-      },
->>>>>>> 3cc45bbc9da8997b764f9cd85b87aec6c2ae6c94
+      }
     ],
     minify: {                             // 设置代码压缩选项
       collapseInlineTagWhitespace: true,
@@ -108,23 +70,14 @@ const myPlugins = [
     },
     window: {                             // 设置全局环境变量
       env: {
-<<<<<<< HEAD
-        apiHost: '',
-      }
-    }
-  }),
-  // 单独打包css到独立文件
-  new MiniCssExtractPlugin({
-    filename: 'css/style_[name]_[hash:6].css',
-    // chunkFilename: '[id]_[hash].css',
-    allChunks: true,
-  }),
-=======
         name: pkg.config.appName,
-        apiHost: isDev ? config.apiHostDev : config.apiHostProd,
+        apiHost: isTestnet ? config.apiHostTestNet : isMainnet? config.apiHostProd : isDev ? config.apiHostDev : config.apiHostProd,
+        apiHostKit: config.apiHostKit,
+        wsHost: isMainnet ? config.wsHostProd : isDev ? config.wsHostDev : config.wsHostProd,
         version: pkg.version,
       }
-    }
+    },
+    bodyHtmlSnippet: '<span style="display: none"><script data-id="bytom" src="https://s23.cnzz.com/z_stat.php?id=1275681890&web_id=1275681890" language="JavaScript"></script></span>',
   }),
   new InlineMainfestPlugin(),
   // 单独打包css到独立文件
@@ -133,7 +86,7 @@ const myPlugins = [
     // chunkFilename: '[id]_[hash].css',
     allChunks: true,
   }),
-  new ProgressPlugin(),
+  // new ProgressPlugin(),
   new webpack.ProvidePlugin({
     _conf: '_conf',
     _util: [path.join(__dirname, '../src/utils/common.js'), 'default'],
@@ -147,28 +100,26 @@ const myPlugins = [
     PureComponent: ['react', 'PureComponent'],
     connect: ['react-redux', 'connect'],
     Link: ['react-router-dom', 'Link'],
-    classnames: ['classnames/bind'], 
+    classnames: ['classnames/bind'],
     css: ['styled-components', 'default'], 
   }),
   new HappyPack({
     loaders: ['babel-loader'],
-  })
->>>>>>> 3cc45bbc9da8997b764f9cd85b87aec6c2ae6c94
+    threads: 4,
+  }),
+  new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn|en/),
 ];
 
 const monitorPlugin =  new WebpackMonitor({
-  capture: true, // -> default 'true'
-  target: '../stats/stats.json', // default -> '../monitor/stats.json'
-  launch: isAnalyze, // -> default 'false'
-  port: 3030, // default -> 8081
-  excludeSourceMaps: true // default 'true'
+  capture: true,
+  target: '../stats/stats.json',
+  launch: isAnalyze,
+  port: 3030,
+  excludeSourceMaps: true
 });
 
 isAnalyze && myPlugins.push(monitorPlugin);
-<<<<<<< HEAD
-=======
 isDev && myPlugins.push(new webpack.HotModuleReplacementPlugin());
->>>>>>> 3cc45bbc9da8997b764f9cd85b87aec6c2ae6c94
 
 module.exports = {
   mode: 'development',
@@ -177,32 +128,13 @@ module.exports = {
     // common: path.join(__dirname, '../src/common.js'),
   },
   output: {
-<<<<<<< HEAD
-    filename: '[name].[hash:6].js',
-    path: path.join(__dirname, '../dist'),
-    publicPath: '',
-  },
-  plugins: myPlugins,
-  optimization: {
-    runtimeChunk: true,
-    splitChunks: {
-      cacheGroups: {
-        commons: {
-          test: /node_modules/,
-          chunks: 'initial',
-          name: 'common',
-          priority: 10,
-        }
-      }
-    },
-=======
     filename: isDev ? 'js/[name].[hash:6].js' : 'js/[name].[chunkhash:6].js',
     path: path.join(__dirname, '../dist'),
     publicPath: '/',
   },
   plugins: myPlugins,
   optimization: {
-    runtimeChunk: false,
+    runtimeChunk: 'single',
     // moduleIds: 'hashed',
     splitChunks: {
       chunks: 'all',
@@ -211,6 +143,16 @@ module.exports = {
       cacheGroups: {
         react: {
           test: /(react|redux|immutable)/,
+          chunks: 'initial',
+          priority: 10,
+        },
+        echarts: {
+          test: /(echarts|zrender)/,
+          chunks: 'initial',
+          priority: 10,
+        },
+        antd: {
+          test: /(antd|rc-)/,
           chunks: 'initial',
           priority: 10,
         },
@@ -235,7 +177,6 @@ module.exports = {
         }
       }),
     ],
->>>>>>> 3cc45bbc9da8997b764f9cd85b87aec6c2ae6c94
     concatenateModules: true,
     noEmitOnErrors: true,
   },
@@ -244,49 +185,25 @@ module.exports = {
     rules: [
       {
         test: /\.js(x)?$/,
-<<<<<<< HEAD
-        use: ['babel-loader'],
-        include: [config.srcPath, config.examplePath],
-=======
         use: 'happypack/loader',
+        // use: 'babel-loader',
         include: [config.srcPath],
->>>>>>> 3cc45bbc9da8997b764f9cd85b87aec6c2ae6c94
         exclude: [config.nodeModules],  
       },
       {
         test: /\.s?[ac]ss$/,
         use: [
-<<<<<<< HEAD
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: isDev,
-            }
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                localIdentName: isDev ? '[local]_[path]_[name]_[hash:6]' : 'bytom-[hash:6]',
-              },
-              sourceMap: false,
-            }
-          }, 'sass-loader', 'postcss-loader'
-        ],
-        include: [config.srcPath, config.examplePath],
-=======
           isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
               modules: true,
               sourceMap: isDev,
-              localIdentName: isDev ? '[name]-[local]_[hash:6]' : 'vj-[name]-[hash:6]',
+              localIdentName: isDev ? '[name]-[local]_[hash:6]' : 'bytom-[name]-[hash:6]',
             }
           }, 'sass-loader', 'postcss-loader'
         ],
         include: [config.srcPath],
->>>>>>> 3cc45bbc9da8997b764f9cd85b87aec6c2ae6c94
       },
       {
         test: /\.css$/,
@@ -294,31 +211,25 @@ module.exports = {
         include: [config.nodeModules],
       },
       {
-<<<<<<< HEAD
-        test: /\.(jpg|jpeg|png|gif|svg|bmp)$/,
-=======
         test: /\.(jpg|jpeg|png|gif|bmp)$/i,
->>>>>>> 3cc45bbc9da8997b764f9cd85b87aec6c2ae6c94
         use: [{
           loader: 'url-loader',
           options: {
             limit: 8192,
-<<<<<<< HEAD
-            name: '[path][name].[hash].[ext]',
-            outputPath: path.join(__dirname, '../dist/images')
-          }
-        }]
-=======
             name: '[name].[hash].[ext]',
             outputPath: '../dist/images',
             publicPath: '/images'
+          },
+        },{
+          loader: 'image-webpack-loader',
+          options: {
+            bypassOnDebug: true,
           }
         }]
       },
       {
         test: /\.svg$/,
-        loader: ['@svgr/webpack'],
->>>>>>> 3cc45bbc9da8997b764f9cd85b87aec6c2ae6c94
+        loader: 'raw-loader',
       }
     ]
   },
@@ -328,18 +239,6 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx', '.sass', '.css', '.json'],
-<<<<<<< HEAD
-    alias: {
-      '_conf': path.join(__dirname, '../src/config.js')
-    }
-  },
-  devServer: {
-    contentBase: path.join(__dirname, '../dist'),
-    port: 2333,
-    host: '0.0.0.0',
-    // https: true,
-    overlay: true,
-=======
     alias: config.alias
   },
   devServer: {
@@ -348,17 +247,12 @@ module.exports = {
     host: '0.0.0.0',
     // https: true,
     overlay: false,
->>>>>>> 3cc45bbc9da8997b764f9cd85b87aec6c2ae6c94
     hot: true,
     open: true,
     useLocalIp: true,
     compress: false,  
     // clientLogLevel: 'none',   // 可选值 none ，info ， warning ， error
-<<<<<<< HEAD
-    publicPath: '',
-=======
     publicPath: '/',
->>>>>>> 3cc45bbc9da8997b764f9cd85b87aec6c2ae6c94
     noInfo: true,
     historyApiFallback: true,
     // historyApiFallback: {
@@ -366,14 +260,18 @@ module.exports = {
     //     { from: /./, to: '/index.html' }
     //   ]
     // },
-<<<<<<< HEAD
-=======
     // before() {
     //   console.log('start with development mode.');
     // },
     // after() {
     //   console.log('completed.');
     // },
->>>>>>> 3cc45bbc9da8997b764f9cd85b87aec6c2ae6c94
-  }
+  },
+  node: {
+    dgram: 'empty',
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty',
+    child_process: 'empty',
+  },
 };

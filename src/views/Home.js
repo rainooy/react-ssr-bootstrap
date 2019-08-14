@@ -1,29 +1,3 @@
-<<<<<<< HEAD
-import React, { Component } from 'react'
-import { Card, Icon, Avatar } from 'antd';
-import { Link } from 'react-router-dom';
-import Header from './components/Header';
-// const { Meta } = Card;
-
-import style from '../assets/app.scss';
-import '../assets/common.scss';
-
-export default class Home extends Component {
-
-  handleClick = (event) => {
-    console.log('click.');
-  }
-
-  render() {
-    return (
-      <div>
-        <Header />
-        
-      </div>
-    )
-  }
-}
-=======
 import { Layout, Menu, Icon, Breadcrumb } from 'antd';
 
 const { Header, Sider, Content } = Layout;
@@ -103,4 +77,3 @@ class Home extends React.Component {
 }
 
 export default Home;
->>>>>>> 3cc45bbc9da8997b764f9cd85b87aec6c2ae6c94

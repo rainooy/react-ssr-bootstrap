@@ -6,8 +6,8 @@ module.exports = {
       {
         "modules": false,
         "useBuiltIns": "usage",
-        "corejs": 2,
-        "debug": false
+        "corejs": 3,
+        "debug": true
       }
     ]
   ],
@@ -36,7 +36,7 @@ module.exports = {
       "@babel/plugin-transform-runtime",
       {
         "regenerator": false,
-        "corejs": 2,
+        "corejs": 3,
       }
     ],
     "babel-plugin-styled-components",
