@@ -211,6 +211,21 @@ module.exports = {
         include: [config.nodeModules],
       },
       {
+        test: /\.less$/,
+        use: [
+          isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+          'less-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              javascriptEnabled: true,
+            }
+          }
+        ],
+        include: [config.nodeModules],
+      },
+      {
         test: /\.(jpg|jpeg|png|gif|bmp)$/i,
         use: [{
           loader: 'url-loader',

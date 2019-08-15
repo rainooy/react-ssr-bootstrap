@@ -1,45 +1,41 @@
 module.exports = {
   presets: [
-    "@babel/preset-react",
+    '@babel/preset-react',
     [
-      "@babel/preset-env",
+      '@babel/preset-env',
       {
-        "modules": false,
-        "useBuiltIns": "usage",
-        "corejs": 3,
-        "debug": true
-      }
-    ]
+        modules: false,
+        useBuiltIns: 'usage',
+        corejs: { version: 3, proposals: true },
+        debug: false,
+      },
+    ],
   ],
   plugins: [
-    "react-hot-loader/babel",
+    'react-hot-loader/babel',
+    '@babel/plugin-proposal-object-rest-spread',
+    '@babel/plugin-syntax-dynamic-import',
+    '@babel/plugin-proposal-optional-chaining',
+    '@babel/plugin-proposal-nullish-coalescing-operator',
+    'babel-plugin-styled-components',
+    ['@babel/plugin-proposal-decorators', { legacy: true, },],
+    '@babel/plugin-proposal-class-properties',
+    ['@babel/plugin-proposal-pipeline-operator', { proposal: 'minimal' }],
     [
-      "@babel/plugin-proposal-decorators",
+      'import',
       {
-        "legacy": true
-      }
-    ],
-    "@babel/plugin-proposal-class-properties",
-    "@babel/plugin-proposal-object-rest-spread",
-    "@babel/plugin-syntax-dynamic-import",
-    "@babel/plugin-proposal-optional-chaining",
-    "@babel/plugin-proposal-nullish-coalescing-operator",
-    [
-      "import",
-      {
-        "libraryName": "antd",
-        "libraryDirectory": "es",
-        "style": "css"
-      }
+        libraryName: 'antd',
+        libraryDirectory: 'es',
+        style: 'css',
+      },
     ],
     [
-      "@babel/plugin-transform-runtime",
+      '@babel/plugin-transform-runtime',
       {
-        "regenerator": false,
-        "corejs": 3,
-      }
+        regenerator: false,
+        corejs: 3,
+      },
     ],
-    "babel-plugin-styled-components",
   ],
-  comments: true
+  comments: true,
 };
