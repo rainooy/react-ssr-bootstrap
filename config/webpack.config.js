@@ -7,8 +7,7 @@ const HtmlWebpackTemplate = require('html-webpack-template');
 const WebpackMonitor = require('webpack-monitor');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const MiniCssFile = require('optimize-css-assets-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const HappyPack = require('happypack');
+const TerserPlugin = require('terser-webpack-plugin');
 const InlineMainfestPlugin = require('inline-manifest-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WebpackBar = require('webpackbar');
@@ -103,10 +102,6 @@ const myPlugins = [
     classnames: ['classnames/bind'],
     css: ['styled-components', 'default'], 
   }),
-  new HappyPack({
-    loaders: ['babel-loader'],
-    threads: 4,
-  }),
   new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn|en/),
 ];
 
@@ -166,16 +161,11 @@ module.exports = {
     },
     minimizer: [
       new MiniCssFile({}),
-      new UglifyJsPlugin({
-        parallel: true,
-        cache: true,
-        uglifyOptions: {
-          compress: {
-            drop_console: true,
-            drop_debugger: true,
-          }
-        }
-      }),
+      // new TerserPlugin({
+      //   parallel: true,
+      //   cache: true,
+      //   sourceMap: true,
+      // }),
     ],
     concatenateModules: true,
     noEmitOnErrors: true,
@@ -185,9 +175,7 @@ module.exports = {
     rules: [
       {
         test: /\.js(x)?$/,
-        use: 'happypack/loader',
-        // use: 'babel-loader',
-        include: [config.srcPath],
+        use: 'babel-loader',
         exclude: [config.nodeModules],  
       },
       {

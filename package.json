@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "node ./server.js",
-    "babel": "rimraf ./dist && cross-env NODE_ENV=production babel ./src/lib -d ./dist",
+    "babel": "rimraf ./dist && cross-env NODE_ENV=production babel ./src -d ./dist",
     "analyze": "cross-env ANALYZE=true npm run webpack:prod",
     "build": "cross-env NODE_ENV=production npm run webpack:prod",
     "webpack:dev": "webpack-dev-server --mode development --config config/webpack.config.js",
@@ -22,6 +22,10 @@
     "port": 2666,
     "output": "dist"
   },
+  "browserslist": [
+    "> 0.2%",
+    "last 2 versions"
+  ],
   "license": "ISC",
   "dependencies": {
     "@ant-design/pro-layout": "^4.5.14",
@@ -83,7 +87,6 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^4.2.0",
-    "happypack": "^5.0.1",
     "html-webpack-plugin": "^3.2.0",
     "html-webpack-template": "^6.2.0",
     "inline-manifest-webpack-plugin": "^4.0.2",
@@ -97,7 +100,7 @@
     "rimraf": "^2.7.0",
     "sass-loader": "^7.2.0",
     "style-loader": "^1.0.0",
-    "uglifyjs-webpack-plugin": "^2.2.0",
+    "terser-webpack-plugin": "^1.4.1",
     "webpack": "^4.39.2",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.8.0",
