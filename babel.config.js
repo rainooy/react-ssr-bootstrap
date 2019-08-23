@@ -6,6 +6,7 @@ module.exports = {
         modules: false,
         useBuiltIns: 'usage',
         corejs: { version: 3, proposals: false },
+        include: [],
         debug: false,
       },
     ],

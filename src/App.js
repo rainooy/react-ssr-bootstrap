@@ -5,7 +5,9 @@ import { IntlProvider } from 'react-intl';
 import zh_CN from './conf/locales/zh-CN';
 import en_US from './conf/locales/en-US';
 
-import Home from './views/Home';
+import Home from '@/pages/Home';
+import Login from '@/pages/user/Login';
+import Register from '@/pages/user/Register';
 
 const mapStateToProps = (state) => ({
   config: state.config,
@@ -29,12 +31,12 @@ class App extends PureComponent {
       >
         <div>
           <BrowserRouter>
-            <>
-              <Switch>
-                <Route exact path="/" render={(props) => <Home {...props} />} />
-                <Redirect to="/" />
-              </Switch>
-            </>
+            <Switch>
+              <Route exact path="/login" render={() => <Login />} />
+              <Route exact path="/register" render={() => <Register />} />
+              <Route path="/" render={() => <Home />} />
+              <Redirect to="/login" />
+            </Switch>
           </BrowserRouter>
         </div>
       </IntlProvider>

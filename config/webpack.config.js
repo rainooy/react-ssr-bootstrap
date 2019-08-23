@@ -4,7 +4,7 @@ const webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');      // 生成html文件
 const HtmlWebpackTemplate = require('html-webpack-template');
-const WebpackMonitor = require('webpack-monitor');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const MiniCssFile = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -105,15 +105,11 @@ const myPlugins = [
   new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn|en/),
 ];
 
-const monitorPlugin =  new WebpackMonitor({
-  capture: true,
-  target: '../stats/stats.json',
-  launch: isAnalyze,
-  port: 3030,
-  excludeSourceMaps: true
+const AnalyzerPlugin =  new BundleAnalyzerPlugin({
+  analyzerPort: 2019,
 });
 
-isAnalyze && myPlugins.push(monitorPlugin);
+isAnalyze && myPlugins.push(AnalyzerPlugin);
 isDev && myPlugins.push(new webpack.HotModuleReplacementPlugin());
 
 module.exports = {
@@ -149,7 +145,7 @@ module.exports = {
         antd: {
           test: /(antd|rc-)/,
           chunks: 'initial',
-          priority: 10,
+          priority: 20,
         },
         libs: {
           test: /[\\/]node_modules[\\/]/,
@@ -161,11 +157,11 @@ module.exports = {
     },
     minimizer: [
       new MiniCssFile({}),
-      // new TerserPlugin({
-      //   parallel: true,
-      //   cache: true,
-      //   sourceMap: true,
-      // }),
+      new TerserPlugin({
+        parallel: true,
+        cache: true,
+        sourceMap: true,
+      }),
     ],
     concatenateModules: true,
     noEmitOnErrors: true,
@@ -242,7 +238,12 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx', '.sass', '.css', '.json'],
-    alias: config.alias
+    alias: {
+      ...config.alias,
+      '@': path.join(__dirname, '../src'),
+      '_': path.join(__dirname, '../src/components'),
+      '#': path.join(__dirname, '../src/assets/images'),
+    }
   },
   devServer: {
     // contentBase: path.join(__dirname, '../dist'),
