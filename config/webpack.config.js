@@ -2,7 +2,7 @@ const path = require('path');
 const pkg = require('../package.json');
 const webpack = require('webpack');
 
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');      // 生成html文件
 const HtmlWebpackTemplate = require('html-webpack-template');
 const WebpackMonitor = require('webpack-monitor');
@@ -21,9 +21,7 @@ const isAnalyze = process.env.ANALYZE === 'true';
 
 const myPlugins = [
   // 清空打包文件生成目录，每次打包前执行一次
-  new CleanWebpackPlugin([config.distPath], {
-    root: config.rootPath,
-  }),
+  new CleanWebpackPlugin(),
   // 自动生成html文件，使用html-webpack-template插件指定模板
   new HtmlWebpackPlugin({
     title: pkg.config.appTitle,
