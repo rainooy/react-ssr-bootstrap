@@ -14,7 +14,7 @@ module.exports = {
   ],
   plugins: [
     'react-hot-loader/babel',
-    ['@babel/plugin-proposal-decorators', { legacy: true, },],
+    ['@babel/plugin-proposal-decorators', { legacy: true }],
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-object-rest-spread',
     '@babel/plugin-syntax-dynamic-import',
@@ -36,9 +36,12 @@ module.exports = {
         corejs: 3,
       },
     ],
-    ['babel-plugin-styled-components', {
-      "displayName": true,
-    }],
+    [
+      'babel-plugin-styled-components',
+      {
+        displayName: true,
+      },
+    ],
   ],
   comments: true,
 };
