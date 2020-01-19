@@ -8,8 +8,6 @@ const config = {
     links: {},
   },
   default_lang: 'zh-cn',
-  btm_asset_id: 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
-  coinbase_asset_id: '0000000000000000000000000000000000000000000000000000000000000000',
 };
 
 const get_path = (key) => {

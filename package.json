@@ -1,5 +1,5 @@
 {
-  "name": "@bytom/<%= proj_name %>",
+  "name": "bytom",
   "version": "0.0.1",
   "description": "<%= proj_des %>",
   "main": "lib/index",

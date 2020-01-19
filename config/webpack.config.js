@@ -24,45 +24,26 @@ const myPlugins = [
   new CleanWebpackPlugin([config.distPath], {
     root: config.rootPath,
   }),
-  // new webpack.DefinePlugin({
-  //   NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'production'),   // wp4不在需要定义NODE_ENV，根据mode自动定义
-  // }),
   // 自动生成html文件，使用html-webpack-template插件指定模板
   new HtmlWebpackPlugin({
     title: pkg.config.appTitle,
     // filename: `${pkg.config.appName}.html`,    // 生成文件名取自 package.json name属性，故初始化项目指定合适name
-    filename: `index.html`,    // 生成文件名取自 package.json name属性，故初始化项目指定合适name
+    filename: `index.html`,
     favicon: path.join(__dirname, '../src/assets/images/favicon.ico'),
     template: HtmlWebpackTemplate,        // 使用html-webpack-template插件扩充默认模板
     inject: false,                        // 由html-webpack-template处理文件打包后文件引入，所以此处关闭默认html-webpack-plugin文件注入
     appMountId: config.appMountId,        // 默认app容器id
     mobile: false,                        // 是否开启移动端支持，meta标签
-    lang: 'en-US',
+    lang: 'zh-CN',
     links: [],                            // 额外links
-    // scripts: ['https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en'],                          // 额外js
     inlineManifestWebpackName: 'runtime',
-    bodyHtmlSnippet: '<span style="display: none"><script src="https://hm.baidu.com/hm.js?5ee54634fb5650de8ac1e05cc4012ded" language="JavaScript"></script></span>',
+    // bodyHtmlSnippet: '<span style="display: none"><script src="xxxxx" language="JavaScript"></script></span>',  // 统计代码
     meta: [                               // 指定meta标签
-      {
-        name: 'renderer',
-        content: 'webkit'
-      },
-      {
-        name: 'keywords',
-        content: 'btmscan,bytomscan,btm scan,bytom scan,btm block explorer,bytom,btm,比原链,比原,矿工,矿机,挖矿,比原链区块浏览器,比原浏览器,区块链浏览器'
-      },
-      {
-        name: 'description',
-        content: 'BTM Block Explorer - BTM Blocks, Transactions, Addresses and Mining data'
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no'
-      },
-      {
-        name: 'format-detection',
-        content: 'telephone=no'
-      },
+      { name: 'renderer', content: 'webkit' },
+      { name: 'keywords', content: 'bytom' },
+      { name: 'description', content: 'bytom' },
+      { name: 'viewport', content: 'width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no' },
+      { name: 'format-detection', content: 'telephone=no' },
     ],
     minify: {                             // 设置代码压缩选项
       collapseInlineTagWhitespace: true,
@@ -109,7 +90,7 @@ const monitorPlugin =  new WebpackMonitor({
   capture: true, // -> default 'true'
   target: '../stats/stats.json', // default -> '../monitor/stats.json'
   launch: isAnalyze, // -> default 'false'
-  port: 3030, // default -> 8081
+  port: 8081, // default -> 8081
   excludeSourceMaps: true // default 'true'
 });
 
@@ -221,7 +202,6 @@ module.exports = {
     alias: config.alias
   },
   devServer: {
-    // contentBase: path.join(__dirname, '../dist'),
     port: pkg.config.port,
     host: '0.0.0.0',
     // https: true,
@@ -230,20 +210,8 @@ module.exports = {
     open: true,
     useLocalIp: true,
     compress: false,  
-    // clientLogLevel: 'none',   // 可选值 none ，info ， warning ， error
     publicPath: '/',
     noInfo: true,
     historyApiFallback: true,
-    // historyApiFallback: {
-    //   rewrites: [
-    //     { from: /./, to: '/index.html' }
-    //   ]
-    // },
-    // before() {
-    //   console.log('start with development mode.');
-    // },
-    // after() {
-    //   console.log('completed.');
-    // },
   }
 };

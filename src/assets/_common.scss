@@ -221,20 +221,3 @@ $ft-xxs: 12px;
     @content;
   }
 }
-
-/**
- * %
- */
-
-
-// 单行溢出省略
-%ell {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-// ios流畅内滚动的秘密
-%tscroll {
-  -webkit-overflow-scrolling: touch;
-}

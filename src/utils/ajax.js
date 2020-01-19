@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const ajax = axios.create({
-  withCredentials: true,
+  withCredentials: false,
   headers: { Accept: 'application/json;charset=utf-8' },
 });
 
