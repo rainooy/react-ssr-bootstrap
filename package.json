@@ -30,7 +30,7 @@
   "dependencies": {
     "@ant-design/pro-layout": "^4.5.14",
     "antd": "^3.21.4",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "babel-eslint": "^10.0.2",
     "babel-plugin-styled-components": "^1.10.6",
     "eslint-plugin-flowtype": "^4.2.0",
