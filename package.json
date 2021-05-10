@@ -34,7 +34,7 @@
     "babel-eslint": "^10.0.2",
     "babel-plugin-styled-components": "^1.10.6",
     "eslint-plugin-flowtype": "^4.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^0.8.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
