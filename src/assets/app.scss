@@ -1,22 +1,25 @@
-*{margin: 0; padding: 0;}
-body{
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
   font-size: 20px;
   color: #038d5f;
-  .t{
+  .t {
     background: #038d5f;
     z-index: 9999;
   }
-  .title{
+  .title {
     font-size: 16px;
     color: #07be87;
     color: #ddd;
-    span{
+    span {
       color: #ddd;
       font-size: 16px;
       display: block;
     }
   }
-  .title{
+  .title {
     color: #038d5f;
   }
 }

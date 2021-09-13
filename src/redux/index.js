@@ -1,11 +1,9 @@
 import { combineReducers } from 'redux';
-import block from './block';
+
+import env from './env';
 import config from './config';
 
-
-
-
 export default combineReducers({
-  ...block,
+  ...env,
   ...config,
 });

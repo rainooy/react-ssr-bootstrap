@@ -1,36 +1,52 @@
 // types
 const CHANGE_LANG = 'config/CHANGE_LANG';
-const user_lang = localStorage.getItem('lang-for-m-blockmeta') || ((navigator.language||navigator.userLanguage) || 'en').substr(0, 2);
+const CHANGE_THEME = 'config/CHANGE_THEME';
+const LOCALLANGKEY = 'LOCALLANGKEY';
+const os_lang =
+  localStorage.getItem(LOCALLANGKEY) || (navigator.language || navigator.userLanguage || 'en').substr(0, 2);
+const user_lang = os_lang === 'zh' ? 'zh' : 'en';
 const initState = {
   isloading: false,
-  lang: user_lang === 'zh' ? 'zh' : 'en',
+  lang: user_lang,
+  theme: 'light',
 };
 !window.env.lang && (window.env.lang = user_lang);
 // reducers
 const reducers = {
-  config (state = initState, action = {}){
+  config(state = initState, action = {}) {
     switch (action.type) {
       case CHANGE_LANG:
         window.env.lang = action.payload;
         return {
+          ...state,
           isloading: false,
-          lang: action.payload
+          lang: action.payload,
         };
-      default: 
+      case CHANGE_THEME:
+        return {
+          ...state,
+          theme: action.payload,
+        };
+      default:
         return state;
     }
   },
-
 };
 
 // action creators
 const actions = {
-  switchLang: (lang) => dispatch => {
-    localStorage.setItem('lang-for-m-blockmeta', lang);
+  switchLang: (lang) => (dispatch) => {
+    localStorage.setItem(LOCALLANGKEY, lang);
     dispatch({
       type: CHANGE_LANG,
       payload: lang,
-    })
+    });
+  },
+  switchTheme: (theme) => (dispatch) => {
+    dispatch({
+      type: CHANGE_THEME,
+      payload: theme,
+    });
   },
 };
 

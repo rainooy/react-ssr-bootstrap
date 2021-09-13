@@ -14,7 +14,7 @@ module.exports = {
   ],
   plugins: [
     'react-hot-loader/babel',
-    ['@babel/plugin-proposal-decorators', { legacy: true, },],
+    ['@babel/plugin-proposal-decorators', { legacy: true }],
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-object-rest-spread',
     '@babel/plugin-syntax-dynamic-import',
@@ -25,10 +25,20 @@ module.exports = {
     [
       'import',
       {
+        libraryName: 'antd-mobile',
+        libraryDirectory: 'lib',
+        style: 'css',
+      },
+      'antd-mobile',
+    ],
+    [
+      'import',
+      {
         libraryName: 'antd',
         libraryDirectory: 'es',
         style: 'css',
       },
+      'antd',
     ],
     [
       '@babel/plugin-transform-runtime',
