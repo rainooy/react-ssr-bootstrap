@@ -3,13 +3,13 @@ const pkg = require('../package.json');
 const webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // 生成html文件
-const HtmlWebpackTemplate = require('html-webpack-template');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const MiniCssFile = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WebpackBar = require('webpackbar');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const config = require('./config.js');
 
@@ -28,23 +28,24 @@ const extract_css_loader = {
 };
 
 const myPlugins = [
-  new WebpackBar({
-    name: pkg.name,
-    color: '#f7b41e',
-  }),
+  // new WebpackBar({
+  //   name: pkg.name,
+  //   color: '#f7b41e',
+  // }),
+
   // 清空打包文件生成目录，每次打包前执行一次
   new CleanWebpackPlugin(),
+  // hot reload
+  new ReactRefreshWebpackPlugin(),
   // 自动生成html文件，使用html-webpack-template插件指定模板
   new HtmlWebpackPlugin({
     title: pkg.config.appTitle,
-    // filename: `${pkg.config.appName}.html`,    // 生成文件名取自 package.json name属性，故初始化项目指定合适name
-    filename: `index.html`, // 生成文件名取自 package.json name属性，故初始化项目指定合适name
+    filename: `index.html`, 
     favicon: path.join(__dirname, '../src/assets/images/favicon.ico'),
-    template: HtmlWebpackTemplate, // 使用html-webpack-template插件扩充默认模板
+    template: path.join(__dirname, '../index.html'), // 使用html-webpack-template插件扩充默认模板
     inject: true, // 由html-webpack-template处理文件打包后文件引入，所以此处关闭默认html-webpack-plugin文件注入
     appMountId: config.appMountId, // 默认app容器id
     mobile: false, // 是否开启移动端支持，meta标签
-    lang: 'en-US',
     links: [], // 额外links
     scripts: [], // 额外js
     meta: [
@@ -54,42 +55,29 @@ const myPlugins = [
         content: 'width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no',
       },
     ],
-    minify: {
-      // 设置代码压缩选项
-      collapseInlineTagWhitespace: true,
-      collapseWhitespace: true,
-    },
-    window: {
-      // 设置全局环境变量
-      env: {
-        name: pkg.config.appName,
-        network: isMainnet ? 'mainnet' : isDev ? 'testnet' : 'mainnet',
-        apiHost: isTestnet
-          ? config.apiHostTestNet
-          : isMainnet
-          ? config.apiHostProd
-          : isDev
-          ? config.apiHostDev
-          : config.apiHostProd,
-        apiHostKit: config.apiHostKit,
-        wsHost: isMainnet ? config.wsHostProd : isDev ? config.wsHostDev : config.wsHostProd,
-        version: pkg.version,
-      },
-    },
-    headHtmlSnippet: `
-      <script crossorigin="anonymous" src="https://polyfill.alicdn.com/polyfill.min.js?features=default%2Ces6%2Ces7%2Ces5%2CIntl"></script>
-      <script>
-        if (window.location.href.indexOf('__debug') !== -1) {
-          var a = document.createElement('script');
-          a.src = 'https://rainoy.com/js/eruda.js';
-          var h = document.getElementsByTagName('head')[0];
-          h.appendChild(a);
-        }
-      </script>
-    `,
-    bodyHtmlSnippet: pkg.config.baiduAnalysisId
-      ? `<span style="display: none"><script src="https://hm.baidu.com/hm.js?${pkg.config.baiduAnalysisId}"></script></span>`
-      : '',
+    // base: '',
+    // minify: {
+    //   // 设置代码压缩选项
+    //   collapseInlineTagWhitespace: true,
+    //   collapseWhitespace: true,
+    // },
+    // window: {
+    //   // 设置全局环境变量
+    //   env: {
+    //     name: pkg.config.appName,
+    //     network: isMainnet ? 'mainnet' : isDev ? 'testnet' : 'mainnet',
+    //     apiHost: isTestnet
+    //       ? config.apiHostTestNet
+    //       : isMainnet
+    //       ? config.apiHostProd
+    //       : isDev
+    //       ? config.apiHostDev
+    //       : config.apiHostProd,
+    //     apiHostKit: config.apiHostKit,
+    //     wsHost: isMainnet ? config.wsHostProd : isDev ? config.wsHostDev : config.wsHostProd,
+    //     version: pkg.version,
+    //   },
+    // },
   }),
   // 单独打包css到独立文件
   new MiniCssExtractPlugin({
@@ -107,20 +95,19 @@ const myPlugins = [
     Msg: ['react-intl', 'FormattedMessage'],
     React: 'react',
     Svg: ['react-svg-inline', 'default'],
-    ReactDOM: '@hot-loader/react-dom',
     Component: ['react', 'Component'],
     useSwr: ['swr', 'default'],
     useState: ['react', 'useState'],
     useEffect: ['react', 'useEffect'],
+    useMemo: ['react', 'useMemo'],
     useDispatch: ['react-redux', 'useDispatch'],
     useSelector: ['react-redux', 'useSelector'],
-    PureComponent: ['react', 'PureComponent'],
     connect: ['react-redux', 'connect'],
     Link: ['react-router-dom', 'Link'],
     classnames: ['classnames/bind'],
     css: ['styled-components', 'default'],
   }),
-  new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn|en/),
+  // new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn|en/),
 ];
 
 const AnalyzerPlugin = new BundleAnalyzerPlugin({
@@ -129,15 +116,12 @@ const AnalyzerPlugin = new BundleAnalyzerPlugin({
 
 isAnalyze && myPlugins.push(AnalyzerPlugin);
 isDev && myPlugins.push(new webpack.HotModuleReplacementPlugin());
-
+// webpack config
 module.exports = {
   mode: 'development',
-  entry: {
-    app: ['react-hot-loader/patch', path.join(__dirname, '../src/index.js')],
-    // common: path.join(__dirname, '../src/common.js'),
-  },
+  entry: path.join(__dirname, '../src/index.js'),
   output: {
-    filename: isDev ? 'js/[name].[hash:6].js' : 'js/[name].[chunkhash:6].js',
+    filename: 'js/[name].[chunkhash:6].js',
     path: path.join(__dirname, '../dist'),
     publicPath: isDev ? '/' : CDN_HOST,
   },
@@ -197,21 +181,6 @@ module.exports = {
         include: [config.nodeModules],
       },
       {
-        test: /\.less$/,
-        use: [
-          isDev ? 'style-loader' : extract_css_loader,
-          'css-loader',
-          'less-loader',
-          {
-            loader: 'less-loader',
-            options: {
-              javascriptEnabled: true,
-            },
-          },
-        ],
-        include: [config.nodeModules],
-      },
-      {
         test: /\.(jpg|jpeg|png|gif|bmp)$/i,
         use: [
           {
@@ -262,7 +231,6 @@ module.exports = {
       '@': path.join(__dirname, '../src'),
       _: path.join(__dirname, '../src/components'),
       '#': path.join(__dirname, '../src/assets/images'),
-      'react-dom': '@hot-loader/react-dom',
     },
   },
   devServer: {
@@ -270,21 +238,12 @@ module.exports = {
     port: pkg.config.port,
     host: '0.0.0.0',
     // https: true,
-    overlay: false,
     hot: true,
     open: true,
-    useLocalIp: true,
+    // useLocalIp: true,
     compress: false,
     // clientLogLevel: 'none',   // 可选值 none ，info ， warning ， error
-    publicPath: '/',
-    noInfo: true,
+    // publicPath: '/',
     historyApiFallback: true,
-  },
-  node: {
-    dgram: 'empty',
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty',
-    child_process: 'empty',
   },
 };

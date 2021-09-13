@@ -10,7 +10,6 @@ const initState = {
   lang: user_lang,
   theme: 'light',
 };
-!window.env.lang && (window.env.lang = user_lang);
 // reducers
 const reducers = {
   config(state = initState, action = {}) {

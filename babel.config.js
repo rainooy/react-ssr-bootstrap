@@ -13,7 +13,7 @@ module.exports = {
     '@babel/preset-react',
   ],
   plugins: [
-    'react-hot-loader/babel',
+    'react-refresh/babel',
     ['@babel/plugin-proposal-decorators', { legacy: true }],
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-object-rest-spread',

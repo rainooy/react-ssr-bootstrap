@@ -1,4 +1,3 @@
-import { hot } from 'react-hot-loader/root';
 import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
@@ -22,4 +21,4 @@ const App = () => {
   );
 };
 
-export default hot(App);
+export default App;
