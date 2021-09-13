@@ -87,7 +87,9 @@ const myPlugins = [
         }
       </script>
     `,
-    bodyHtmlSnippet: `<span style="display: none"><script src="https://hm.baidu.com/hm.js?05b2ba7695ae06a40dfee3897c23fc0d"></script></span>`,
+    bodyHtmlSnippet: pkg.config.baiduAnalysisId
+      ? `<span style="display: none"><script src="https://hm.baidu.com/hm.js?${pkg.config.baiduAnalysisId}"></script></span>`
+      : '',
   }),
   // 单独打包css到独立文件
   new MiniCssExtractPlugin({
@@ -190,22 +192,6 @@ module.exports = {
         exclude: [config.nodeModules],
       },
       {
-        test: /\.s?[ac]ss$/,
-        use: [
-          isDev ? 'style-loader' : extract_css_loader,
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              sourceMap: isDev,
-            },
-          },
-          'sass-loader',
-          'postcss-loader',
-        ],
-        include: [config.srcPath],
-      },
-      {
         test: /\.css$/,
         use: [isDev ? 'style-loader' : extract_css_loader, 'css-loader', 'postcss-loader'],
         include: [config.nodeModules],
@@ -270,7 +256,7 @@ module.exports = {
     // 'react-dom': 'ReactDOM'
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.sass', '.css', '.json'],
+    extensions: ['.js', '.jsx', '.css', '.json'],
     alias: {
       ...config.alias,
       '@': path.join(__dirname, '../src'),

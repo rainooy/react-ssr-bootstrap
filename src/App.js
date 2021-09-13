@@ -8,8 +8,6 @@ import en_US from './conf/locales/en';
 
 import Home from '@/pages/home/home';
 
-import '@/assets/common.scss';
-
 const App = () => {
   const config = useSelector((state) => state.config);
   return (
