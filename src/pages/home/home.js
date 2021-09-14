@@ -1,19 +1,17 @@
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 
-import { Button, Card } from 'antd';
-
 const Wrap = css.div`
-  color: #ccc;
+  color: ${({ theme }) => theme.primary};
   font-size: 25px;
+  text-align: center;
+  padding: 10vh 1vh;
 `;
 
 function HomePage() {
   return (
     <Layout>
       <Wrap>homepage</Wrap>
-      <Button>hello world</Button>
-      <Card>hello world</Card>
     </Layout>
   );
 }

@@ -1,6 +1,5 @@
 // types
-const CHANGE_LANG = 'config/CHANGE_LANG';
-const CHANGE_THEME = 'config/CHANGE_THEME';
+const UPDATE = 'config/UPDATE';
 const LOCALLANGKEY = 'LOCALLANGKEY';
 const os_lang =
   localStorage.getItem(LOCALLANGKEY) || (navigator.language || navigator.userLanguage || 'en').substr(0, 2);
@@ -14,17 +13,10 @@ const initState = {
 const reducers = {
   config(state = initState, action = {}) {
     switch (action.type) {
-      case CHANGE_LANG:
-        window.env.lang = action.payload;
+      case UPDATE:
         return {
           ...state,
-          isloading: false,
-          lang: action.payload,
-        };
-      case CHANGE_THEME:
-        return {
-          ...state,
-          theme: action.payload,
+          ...action.payload,
         };
       default:
         return state;
@@ -34,17 +26,11 @@ const reducers = {
 
 // action creators
 const actions = {
-  switchLang: (lang) => (dispatch) => {
+  update: (lang) => (dispatch) => {
     localStorage.setItem(LOCALLANGKEY, lang);
     dispatch({
-      type: CHANGE_LANG,
+      type: UPDATE,
       payload: lang,
-    });
-  },
-  switchTheme: (theme) => (dispatch) => {
-    dispatch({
-      type: CHANGE_THEME,
-      payload: theme,
     });
   },
 };
