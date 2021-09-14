@@ -53,7 +53,7 @@ const commonWebpackConfig = {
     // 自动生成html文件，使用html-webpack-template插件指定模板
     new HtmlWebpackPlugin({
       title: pkg.config.appTitle,
-      filename: `index.html`, 
+      filename: `index.html`,
       favicon: path.join(__dirname, '../src/assets/images/favicon.ico'),
       template: path.join(__dirname, '../index.html'), // 使用html-webpack-template插件扩充默认模板
       inject: true, // 由html-webpack-template处理文件打包后文件引入，所以此处关闭默认html-webpack-plugin文件注入
@@ -146,8 +146,8 @@ const commonWebpackConfig = {
         test: /\.svg$/,
         use: ['@svgr/webpack'],
       },
-    ]
-  }
+    ],
+  },
 };
 
 module.exports = (envVars, { mode }) => {
@@ -155,4 +155,4 @@ module.exports = (envVars, { mode }) => {
   const common = commonWebpackConfig;
   const envConfig = require(`./webpack.${env}.js`);
   return merge(common, envConfig);
-}
+};

@@ -1,21 +1,9 @@
 const pkg = require('../package.json');
 
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const config = require('./config.js');
 
-const isTestnet = process.env.TEST_NET === 'true';
-const isMainnet = process.env.NETWORK === 'mainnet';
-const isAnalyze = process.env.ANALYZE === 'true';
-
-
-const AnalyzerPlugin = new BundleAnalyzerPlugin({
-  analyzerPort: 2019,
-});
-
-isAnalyze && myPlugins.push(AnalyzerPlugin);
-// isDev && myPlugins.push(new webpack.HotModuleReplacementPlugin());
 // webpack config
 module.exports = {
   mode: 'development',
@@ -26,7 +14,7 @@ module.exports = {
     // new ProgressPlugin(),
     // new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn|en/),
   ],
-  
+
   stats: 'errors-only',
 
   module: {
@@ -38,8 +26,8 @@ module.exports = {
             loader: 'babel-loader',
             options: {
               plugins: [require('react-refresh/babel')].filter(Boolean),
-            }
-          }
+            },
+          },
         ],
         exclude: [config.nodeModules],
       },

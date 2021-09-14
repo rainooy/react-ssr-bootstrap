@@ -1,9 +1,10 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const MiniCssFile = require('optimize-css-assets-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const TerserPlugin = require('terser-webpack-plugin');
 
 const config = require('./config.js');
-
+const isAnalyze = process.env.ANALYZE === 'true';
 
 const extract_css_loader = {
   loader: MiniCssExtractPlugin.loader,
@@ -12,15 +13,23 @@ const extract_css_loader = {
   },
 };
 
+const plugins = [
+  // 单独打包css到独立文件
+  new MiniCssExtractPlugin({
+    filename: 'css/style_[name]_[contenthash:6].css',
+  }),
+];
+isAnalyze &&
+  plugins.push(
+    new BundleAnalyzerPlugin({
+      analyzerPort: 2019,
+    }),
+  );
+
 module.exports = {
   mode: 'production',
   // devtool: 'source-map',
-  plugins: [
-    // 单独打包css到独立文件
-    new MiniCssExtractPlugin({
-      filename: 'css/style_[name]_[contenthash:6].css',
-    }),
-  ],
+  plugins,
   optimization: {
     runtimeChunk: 'single',
     splitChunks: {
@@ -71,6 +80,6 @@ module.exports = {
         use: [extract_css_loader, 'css-loader', 'postcss-loader'],
         include: [config.nodeModules],
       },
-    ]
-  }
+    ],
+  },
 };
