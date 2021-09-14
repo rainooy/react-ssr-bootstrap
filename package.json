@@ -105,7 +105,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.3.2",
-    "husky": "^7.0.2",
+    "husky": "6",
     "image-webpack-loader": "^7.0.1",
     "less-loader": "^10.0.1",
     "lint-staged": "^11.1.2",
@@ -122,6 +122,7 @@
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.2.0",
+    "webpack-merge": "^5.8.0",
     "webpackbar": "^4.0.0"
   },
   "peerDependencies": {}
