@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bytom</title>
+  <title><%= htmlWebpackPlugin.options.title %></title>
   <script crossorigin="anonymous" src="https://polyfill.alicdn.com/polyfill.min.js?features=default%2Ces6%2Ces7%2Ces5%2CIntl"></script>
   <script>
     if (window.location.href.indexOf('__debug') !== -1) {
@@ -14,8 +13,12 @@
       h.appendChild(a);
     }
   </script>
+  <script>
+    window.env = JSON.parse('<%= env %>')
+  </script>
 </head>
 <body>
+  
   <div id="app"></div>
 </body>
 </html>

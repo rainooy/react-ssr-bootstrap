@@ -1,5 +1,5 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const MiniCssFile = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const TerserPlugin = require('terser-webpack-plugin');
 
@@ -51,9 +51,8 @@ module.exports = {
         },
       },
     },
-    // minimize: true,
     minimizer: [
-      new MiniCssFile({}),
+      new CssMinimizerPlugin(),
       new TerserPlugin({
         parallel: true,
         extractComments: false,
@@ -78,7 +77,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: [extract_css_loader, 'css-loader', 'postcss-loader'],
-        include: [config.nodeModules],
+        include: [config.nodeModules, config.srcPath],
       },
     ],
   },

@@ -56,9 +56,9 @@ const commonWebpackConfig = {
       filename: `index.html`,
       favicon: path.join(__dirname, '../src/assets/images/favicon.ico'),
       template: path.join(__dirname, '../index.html'), // 使用html-webpack-template插件扩充默认模板
-      inject: true, // 由html-webpack-template处理文件打包后文件引入，所以此处关闭默认html-webpack-plugin文件注入
+      inject: 'body', // 由html-webpack-template处理文件打包后文件引入，所以此处关闭默认html-webpack-plugin文件注入
       appMountId: config.appMountId, // 默认app容器id
-      mobile: false, // 是否开启移动端支持，meta标签
+      mobile: false, // 是否开启移动端支持，meta标签'
       links: [], // 额外links
       scripts: [], // 额外js
       meta: [
@@ -69,28 +69,19 @@ const commonWebpackConfig = {
         },
       ],
       // base: '',
-      // minify: {
-      //   // 设置代码压缩选项
-      //   collapseInlineTagWhitespace: true,
-      //   collapseWhitespace: true,
-      // },
-      // window: {
-      //   // 设置全局环境变量
-      //   env: {
-      //     name: pkg.config.appName,
-      //     network: isMainnet ? 'mainnet' : isDev ? 'testnet' : 'mainnet',
-      //     apiHost: isTestnet
-      //       ? config.apiHostTestNet
-      //       : isMainnet
-      //       ? config.apiHostProd
-      //       : isDev
-      //       ? config.apiHostDev
-      //       : config.apiHostProd,
-      //     apiHostKit: config.apiHostKit,
-      //     wsHost: isMainnet ? config.wsHostProd : isDev ? config.wsHostDev : config.wsHostProd,
-      //     version: pkg.version,
-      //   },
-      // },
+      minify: {
+        // 设置代码压缩选项
+        collapseInlineTagWhitespace: true,
+        collapseWhitespace: true,
+      },
+      templateParameters: {
+        env: JSON.stringify({
+          name: pkg.config.appName,
+          network: isDev ? 'testnet' : 'mainnet',
+          apiHost: '',
+          version: pkg.version,
+        }),
+      },
     }),
   ],
   resolve: {
