@@ -1,7 +1,6 @@
 const defaultColor = {
   // default color
   primary: '#1891ff',
-
   b88: 'rgba(0 , 0, 0, .88)',
   b24: 'rgba(0 , 0, 0, .24)',
   b36: 'rgba(0 , 0, 0, .36)',

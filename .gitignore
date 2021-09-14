@@ -9,5 +9,6 @@ Desktop.ini
 *.DS_Store
 lib/
 dist/
+public/
 node_modules/
 $RECYCLE.BIN

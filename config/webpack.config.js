@@ -4,7 +4,6 @@ const pkg = require('../package.json');
 const config = require('./config.js');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // 生成html文件
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WebpackBar = require('webpackbar');
 
 const { merge } = require('webpack-merge');
@@ -19,14 +18,13 @@ const commonWebpackConfig = {
     filename: 'js/[name].[chunkhash:6].js',
     path: path.join(__dirname, '../dist'),
     publicPath: isDev ? '/' : CDN_HOST,
+    clean: true,
   },
   plugins: [
     // new WebpackBar({
     //   name: pkg.name,
     //   color: '#f7b41e',
     // }),
-    // 清空打包文件生成目录，每次打包前执行一次
-    new CleanWebpackPlugin(),
     new webpack.ProvidePlugin({
       _conf: '_conf',
       _api: [path.join(__dirname, '../src/conf/api.js'), 'default'],
