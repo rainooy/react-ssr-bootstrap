@@ -1,4 +1,4 @@
-# <%= proj_des %>
+# <?= proj_des ?>
 
 ## Usage
 - init

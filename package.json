@@ -1,7 +1,7 @@
 {
-  "name": "<%= proj_name %>",
+  "name": "<?= proj_name ?>",
   "version": "0.0.1",
-  "description": "<%= proj_des %>",
+  "description": "<?= proj_des ?>",
   "main": "lib/index",
   "repository": {
     "type": "git",
